@@ -18,8 +18,7 @@ public class ObjectsValidator<T> {
 
         if(!violations.isEmpty()) {
             Set<String> errorMessages = violations.stream()
-                    .map(ConstraintViolation::getMessage())
-                    .collect(Collectors.toSet());
+                    .map(ConstraintViolation::getMessage()).collect(Collectors.toSet());
         }
     }
 
