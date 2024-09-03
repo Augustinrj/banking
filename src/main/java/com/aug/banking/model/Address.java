@@ -13,7 +13,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Address extends AbstractEntity{
-
+    private Integer id;
     private String street;
 
     private Integer houseNumber;

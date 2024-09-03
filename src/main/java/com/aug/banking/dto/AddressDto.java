@@ -28,7 +28,7 @@ public class AddressDto {
 
     private Integer userId;
 
-    public AddressDto fromEntity(Address address) {
+    public static AddressDto fromEntity(Address address) {
         return AddressDto.builder()
                 .street(address.getStreet())
                 .houseNumber(address.getHouseNumber())
@@ -39,7 +39,7 @@ public class AddressDto {
                 .build();
     }
 
-    public Address toEntity(AddressDto address) {
+    public static Address toEntity(AddressDto address) {
         return Address.builder()
                 .street(address.getStreet())
                 .houseNumber(address.getHouseNumber())

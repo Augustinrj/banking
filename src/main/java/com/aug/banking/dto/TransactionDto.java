@@ -38,7 +38,7 @@ public class TransactionDto {
 
     private Integer userId;
 
-    public TransactionDto fromEntity(Transaction transaction){
+    public static TransactionDto fromEntity(Transaction transaction){
         return TransactionDto.builder()
                 .id(transaction.getId())
                 .amount(transaction.getAmount())
@@ -49,7 +49,7 @@ public class TransactionDto {
                 .userId(transaction.getUser().getId())
                 .build();
     }
-    public Transaction toEntity(TransactionDto transaction){
+    public static Transaction toEntity(TransactionDto transaction){
         return Transaction.builder()
                 .id(transaction.getId())
                 .amount(transaction.getAmount())

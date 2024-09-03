@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Getter
-public class OperationNonPermittedException extends RuntimeException{
+public class OperationNonPermittedException extends RuntimeException {
 
     private final String errorMsg;
 
