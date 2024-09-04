@@ -31,13 +31,22 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Integer save(AccountDto dto) {
         validator.validate(dto);
+        Account account = AccountDto.toEntity(dto);
+        boolean userHasAlreadyAnAccount = repository.findByUserId(account.getId()).isPresent();
         /*if (dto.getId() != null) throw new OperationNonPermittedException(
                     "Account cannot be updated",
                     "save account",
                     "Account",
                     "Update not permitted"
             );*/
-        Account account = AccountDto.toEntity(dto);
+        if (userHasAlreadyAnAccount){
+            throw new OperationNonPermittedException(
+                    "the selected user has already an active account",
+                    "Create account",
+                    "Account",
+                    "Account creation"
+            );
+        }
         if(dto.getId() == null){
             account.setIban(generatedRandomIban());
         }
