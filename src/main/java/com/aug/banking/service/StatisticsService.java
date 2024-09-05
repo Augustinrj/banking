@@ -1,0 +1,15 @@
+package com.aug.banking.service;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.Map;
+
+/**
+ * @author AUG-augustin.rakotoarivelo@orange.com
+ */
+public interface StatisticsService {
+    Map<LocalDate, BigDecimal> findSumTransactionsByDate(LocalDate startDate, LocalDate endDate);
+    BigDecimal getAccountBalance(Integer userId);
+    BigDecimal highestTransfert(Integer userId);
+    BigDecimal highestDeposit(Integer userId);
+}
