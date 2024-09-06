@@ -26,5 +26,6 @@ public interface TransactionRepository extends JpaRepository<Transaction,Integer
     @Query("select t.createdDate, sum(t.amount) from Transaction t where t.userId = :userId and t.createdDate between :start and :end group by t.createdDate")
     Map<LocalDate, BigDecimal> findSumTransactionByDate(LocalDateTime start, LocalDateTime end, Integer userId);
 
-    BigDecimal findHighestAmountByTransactionType(Integer userId, TransactionType transfert);
+    @Query("select max (abs(t.amount)) as amount from Transaction t where t.user.id = :userId and t.type= :transactiontype")
+    BigDecimal findHighestAmountByTransactionType(Integer userId, TransactionType transactiontype);
 }

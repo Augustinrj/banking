@@ -56,6 +56,6 @@ public class StatisticsServiceImpl implements StatisticsService {
      */
     @Override
     public BigDecimal highestDeposit(Integer userId) {
-        return null;
+        return transactionRepository.findHighestAmountByTransactionType(userId,TransactionType.DEPOSIT);
     }
 }
