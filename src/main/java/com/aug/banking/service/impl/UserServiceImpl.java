@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Integer invalidAccount(Integer id) {
+    public Integer invalidateAccount(Integer id) {
         User user = repository.findById(id)
                 .orElseThrow(()-> new EntityNotFoundException("No user was found for this account validation"));
         user.setActive(false);
