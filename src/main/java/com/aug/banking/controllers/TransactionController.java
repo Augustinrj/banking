@@ -12,7 +12,7 @@ import java.util.List;
  * @author AUG-augustin.rakotoarivelo@orange.com
  */
 @RestController
-@RequestMapping
+@RequestMapping("/transactions")
 @RequiredArgsConstructor
 public class TransactionController {
 
@@ -26,21 +26,28 @@ public class TransactionController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<TransactionDto>> findAll(){
+    public ResponseEntity<List<TransactionDto>> findAll() {
         return ResponseEntity.ok(service.findAll());
+    }
+
+    @GetMapping("/users/{user-id}")
+    public ResponseEntity<List<TransactionDto>> findAllByUserId(
+            @PathVariable("user-id") Integer userId
+    ) {
+        return ResponseEntity.ok(service.findAllByUserId(userId));
     }
 
     @GetMapping("/{transaction-id}")
     public ResponseEntity<TransactionDto> findById(
             @PathVariable("transaction-id") Integer transactionId
-    ){
+    ) {
         return ResponseEntity.ok(service.findById(transactionId));
     }
 
     @DeleteMapping("/{transaction-id}")
     public ResponseEntity<Void> delete(
             @PathVariable("transaction-id") Integer transactionId
-    ){
+    ) {
         service.delete(transactionId);
         return ResponseEntity.accepted().build();
     }

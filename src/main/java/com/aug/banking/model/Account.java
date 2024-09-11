@@ -14,9 +14,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @SuperBuilder
 public class Account extends AbstractEntity{
-    @Id
-    @GeneratedValue
-    private Integer id;
 
     private String iban;
 

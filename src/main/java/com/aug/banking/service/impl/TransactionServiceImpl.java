@@ -32,7 +32,7 @@ public class TransactionServiceImpl implements TransactionService {
     public Integer save(TransactionDto dto) {
         validator.validate(dto);
         Transaction transaction = TransactionDto.toEntity(dto);
-        BigDecimal transactionMultiplier = BigDecimal.valueOf(getTransactionMultiplier(transaction.getTransactionType()));
+        BigDecimal transactionMultiplier = BigDecimal.valueOf(getTransactionMultiplier(transaction.getType()));
         BigDecimal amount = transaction.getAmount().multiply(transactionMultiplier);
         transaction.setAmount(amount);
         return repository.save(transaction).getId();

@@ -15,8 +15,6 @@ import java.util.List;
 @AllArgsConstructor
 public class User extends AbstractEntity{
 
-    private Integer id;
-
     private String lastname;
 
     private String firstname;

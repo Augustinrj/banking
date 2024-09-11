@@ -13,7 +13,6 @@ import javax.persistence.*;
 @SuperBuilder
 @AllArgsConstructor
 public class Contact extends AbstractEntity{
-    private Integer id;
     private String firstname;
     private  String lastname;
     private String email;

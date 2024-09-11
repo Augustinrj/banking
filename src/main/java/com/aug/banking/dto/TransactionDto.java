@@ -13,6 +13,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -24,17 +25,13 @@ public class TransactionDto {
     private Integer id;
 
     @Positive
-    @Max(value = 100_000_000)
-    @Min(value = 100)
     private BigDecimal amount;
 
     private TransactionType transactionType;
 
     private String destinationIban;
 
-    private LocalDateTime creationDate;
-
-    private LocalDateTime lastUpdate;
+    private LocalDate transactionDate;
 
     private Integer userId;
 
@@ -42,10 +39,9 @@ public class TransactionDto {
         return TransactionDto.builder()
                 .id(transaction.getId())
                 .amount(transaction.getAmount())
-                .transactionType(transaction.getTransactionType())
+                .transactionType(transaction.getType())
                 .destinationIban(transaction.getDestinationIban())
-                .creationDate(transaction.getCreationDate())
-                .lastUpdate(transaction.getLastUpdate())
+                .transactionDate(transaction.getTransactionDate())
                 .userId(transaction.getUser().getId())
                 .build();
     }
@@ -53,10 +49,9 @@ public class TransactionDto {
         return Transaction.builder()
                 .id(transaction.getId())
                 .amount(transaction.getAmount())
-                .transactionType(transaction.getTransactionType())
+                .type(transaction.getTransactionType())
                 .destinationIban(transaction.getDestinationIban())
-                .creationDate(transaction.getCreationDate())
-                .lastUpdate(transaction.getLastUpdate())
+                .transactionDate(LocalDate.now())
                 .user(
                         User.builder()
                                 .id(transaction.userId)

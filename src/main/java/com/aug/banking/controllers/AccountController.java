@@ -12,7 +12,7 @@ import java.util.List;
  * @author AUG-augustin.rakotoarivelo@orange.com
  */
 @RestController
-@RequestMapping
+@RequestMapping("/accounts")
 @RequiredArgsConstructor
 public class AccountController {
     private final AccountService service;

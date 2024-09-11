@@ -13,7 +13,7 @@ import java.util.List;
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping
+@RequestMapping("/contacts")
 public class ContactController {
     private final ContactService service;
 
