@@ -82,7 +82,7 @@ public class AccountServiceImpl implements AccountService {
 
     private String generatedRandomIban() {
         //todo generate an iban
-        String iban = Iban.random(CountryCode.MG).toFormattedString();
+        String iban = Iban.random(CountryCode.FR).toFormattedString();
 
         //check if the iban already exists
         boolean ibanExists = repository.findByIban(iban)

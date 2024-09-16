@@ -6,10 +6,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
+import java.time.LocalDateTime;
 
 
 @Getter
@@ -18,22 +16,26 @@ import javax.validation.constraints.NotNull;
 @Builder
 public class UserDto {
     private Integer id;
-    @NotNull
-    @NotEmpty
-    @NotBlank
+    @NotNull(message = "Le nom ne peut pas etre vide")
+    @NotEmpty(message = "Le nom ne peut pas etre vide")
+    @NotBlank(message = "Le nom ne peut pas etre vide")
     private String lastname;
-    @NotNull
-    @NotEmpty
-    @NotBlank
+
+    @NotNull(message = "Le prenom ne peut pas etre vide")
+    @NotEmpty(message = "Le prenom ne peut pas etre vide")
+    @NotBlank(message = "Le prenom ne peut pas etre vide")
     private String firstname;
-    @NotNull
-    @NotEmpty
-    @NotBlank
-    @Email
+
+    @NotNull(message = "L'email' ne peut pas etre vide")
+    @NotEmpty(message = "L'email' ne peut pas etre vide")
+    @NotBlank(message = "L'email ne peut pas etre vide")
+    @Email(message = "L'email n'est pas comforme")
     private String email;
-    @NotNull
-    @NotEmpty
-    @NotBlank
+
+    @NotNull(message = "Le mot de passe ne peut pas etre vide")
+    @NotEmpty(message = "Le mot de passe ne peut pas etre vide")
+    @NotBlank(message = "Le mot de passe ne peut pas etre vide")
+    @Size(min = 8, max = 16,message = "le mot de doit etre comprise entre 8 et 16 caracteres")
     private String password;
 
     public static UserDto fromEntity(User user) {

@@ -16,12 +16,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService service;
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity<Integer> save(@RequestBody UserDto userDto){
         return ResponseEntity.ok(service.save(userDto));
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<List<UserDto>> findAll(){
         return ResponseEntity.ok(service.findAll());
     }
