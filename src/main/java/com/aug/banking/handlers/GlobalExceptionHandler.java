@@ -1,6 +1,7 @@
 package com.aug.banking.handlers;
 
 import com.aug.banking.exceptions.ObjectValidationException;
+import com.aug.banking.exceptions.OperationNonPermittedException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,6 +39,16 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.NOT_ACCEPTABLE)
                 .body(representation);
     }
+
+    @ExceptionHandler(OperationNonPermittedException.class)
+    public ResponseEntity<ExceptionRepresentation> handleException(OperationNonPermittedException exception){
+        ExceptionRepresentation representation = ExceptionRepresentation.builder()
+                .errorMessage(exception.getMessage())
+                .build();
+        return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE)
+                .body(representation);
+    }
+
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<ExceptionRepresentation> handleException(){
         ExceptionRepresentation representation = ExceptionRepresentation.builder()
