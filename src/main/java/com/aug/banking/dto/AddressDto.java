@@ -2,10 +2,7 @@ package com.aug.banking.dto;
 
 import com.aug.banking.model.Address;
 import com.aug.banking.model.User;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Entity;
 
@@ -15,6 +12,8 @@ import javax.persistence.Entity;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 public class AddressDto {
     private String street;
 

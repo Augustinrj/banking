@@ -32,14 +32,17 @@ public class AccountServiceImpl implements AccountService {
     public Integer save(AccountDto dto) {
         validator.validate(dto);
         Account account = AccountDto.toEntity(dto);
-        boolean userHasAlreadyAnAccount = repository.findByUserId(account.getId()).isPresent();
+        System.out.println("  -------------------------- "+repository.findByUserId(account.getUser().getId()).toString());
+        boolean userHasAlreadyAnAccount = repository.findByUserId(account.getUser().getId()).isPresent();
         /*if (dto.getId() != null) throw new OperationNonPermittedException(
                     "Account cannot be updated",
                     "save account",
                     "Account",
                     "Update not permitted"
             );*/
+        System.out.println("userHasAlreadyAnAccount -------------------------- "+userHasAlreadyAnAccount);
         if (userHasAlreadyAnAccount){
+            System.out.println("--------------------Throw vide ----------------");
             throw new OperationNonPermittedException(
                     "the selected user has already an active account",
                     "Create account",

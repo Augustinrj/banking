@@ -1,9 +1,6 @@
 package com.aug.banking.dto;
 import com.aug.banking.model.Account;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.Entity;
@@ -13,6 +10,8 @@ import java.time.LocalDateTime;
 @Data
 @Builder
 @NoArgsConstructor
+@Getter
+@Setter
 @AllArgsConstructor
 public class AccountDto {
     private Integer id;

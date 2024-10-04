@@ -1,9 +1,6 @@
 package com.aug.banking.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
@@ -20,6 +17,7 @@ public class Account extends AbstractEntity{
     private LocalDateTime creationDate;
 
     private LocalDateTime lastUpdate;
+
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;

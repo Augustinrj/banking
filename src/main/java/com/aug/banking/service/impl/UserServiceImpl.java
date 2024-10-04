@@ -73,9 +73,9 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(()->
                         new EntityNotFoundException("No user was found for user account validation"));
         user.setActive(true);
-        AccountDto account = AccountDto.builder()
+        AccountDto accountDto = AccountDto.builder()
                 .user(UserDto.fromEntity(user)).build();
-        accountService.save(account);
+        accountService.save(accountDto);
         return user.getId();
     }
 
