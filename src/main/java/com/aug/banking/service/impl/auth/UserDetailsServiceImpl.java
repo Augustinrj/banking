@@ -15,7 +15,6 @@ import javax.persistence.EntityNotFoundException;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final UserRepository repository;
-    private JwtAuthenticationFilter jwtAuthFilter;
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return repository.findByEmail(email)
