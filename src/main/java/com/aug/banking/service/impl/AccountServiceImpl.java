@@ -40,8 +40,8 @@ public class AccountServiceImpl implements AccountService {
                     "Account",
                     "Update not permitted"
             );*/
-        System.out.println("userHasAlreadyAnAccount -------------------------- "+userHasAlreadyAnAccount);
-        if (userHasAlreadyAnAccount){
+        System.out.println("Account is active -------------------------- "+account.getUser().isActive());
+        if (userHasAlreadyAnAccount && account.getUser().isActive()){
             System.out.println("--------------------Throw vide ----------------");
             throw new OperationNonPermittedException(
                     "the selected user has already an active account",

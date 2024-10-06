@@ -1,5 +1,6 @@
 package com.aug.banking.service.impl;
 
+import com.aug.banking.dto.TransactionSumDetails;
 import com.aug.banking.model.TransactionType;
 import com.aug.banking.repositories.TransactionRepository;
 import com.aug.banking.service.StatisticsService;
@@ -10,6 +11,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -26,7 +28,7 @@ public class StatisticsServiceImpl implements StatisticsService {
      * @return
      */
     @Override
-    public Map<LocalDate, BigDecimal> findSumTransactionsByDate(LocalDate startDate, LocalDate endDate,Integer userId) {
+    public List<TransactionSumDetails> findSumTransactionsByDate(LocalDate startDate, LocalDate endDate, Integer userId) {
         LocalDateTime start = LocalDateTime.of(startDate, LocalTime.of(0,0,0));
         LocalDateTime end = LocalDateTime.of(endDate,LocalTime.of(23,59,59));
         return transactionRepository.findSumTransactionByDate(start,end,userId);
