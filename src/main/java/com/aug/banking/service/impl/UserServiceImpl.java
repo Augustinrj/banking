@@ -1,6 +1,7 @@
 package com.aug.banking.service.impl;
 
 import com.aug.banking.dto.AccountDto;
+import com.aug.banking.dto.AuthenticationResponse;
 import com.aug.banking.dto.UserDto;
 import com.aug.banking.model.Account;
 import com.aug.banking.model.User;
@@ -10,6 +11,7 @@ import com.aug.banking.service.AccountService;
 import com.aug.banking.service.UserService;
 import com.aug.banking.validators.ObjectsValidator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -28,6 +30,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository repository;
     private final AccountService accountService;
     private final ObjectsValidator<UserDto> validator;
+    private final PasswordEncoder passwordEncoder;
     /**
      * @param dto
      * @return Integer
@@ -89,5 +92,17 @@ public class UserServiceImpl implements UserService {
         user.setActive(false);
         repository.save(user);
         return user.getId();
+    }
+
+    /**
+     * @param user
+     * @return
+     */
+    @Override
+    public AuthenticationResponse register(UserDto dto) {
+        validator.validate(dto);
+        User user = UserDto.toEntity(dto);
+
+        return repository.save(user).getId();
     }
 }
