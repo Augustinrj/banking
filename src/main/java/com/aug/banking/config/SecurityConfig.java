@@ -2,7 +2,6 @@ package com.aug.banking.config;
 
 
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.filters.CorsFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,6 +16,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
+
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -33,7 +37,22 @@ public class SecurityConfig {
                         (request)->
                         {
                             try {
-                                request.antMatchers("/**/auth","/**/register")
+                                request.antMatchers(
+                                        "/**/authenticate",
+                                                "/**/register",
+                                                "/api/access/**",
+                                                "/h2-console/**",
+                                                // resources for swagger to work properly
+                                                "/v2/api-docs",
+                                                "/v3/api-docs",
+                                                "/v3/api-docs/**",
+                                                "/swagger-resources",
+                                                "/swagger-resources/**",
+                                                "/configuration/ui",
+                                                "/configuration/security",
+                                                "/swagger-ui/**",
+                                                "/webjars/**",
+                                                "/swagger-ui.html")
                                         .permitAll()
                                         .anyRequest()
                                         .authenticated()
@@ -52,8 +71,14 @@ public class SecurityConfig {
 
     @Bean
     public CorsFilter corsFilter(){
-        //TODO to be implemented
-        return null;
+        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        final CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.setAllowedOrigins(Arrays.asList("http://localhost:4200", "http://locahost:5300/node"));
+        config.setAllowedHeaders(Arrays.asList("Origin", "Content-Type", "Accept", "Authorization"));
+        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+        source.registerCorsConfiguration("/**",config);
+        return new CorsFilter(source);
     }
 
     @Bean

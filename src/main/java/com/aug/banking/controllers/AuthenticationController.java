@@ -1,5 +1,6 @@
 package com.aug.banking.controllers;
 
+import com.aug.banking.dto.AuthenticationRequest;
 import com.aug.banking.dto.AuthenticationResponse;
 import com.aug.banking.dto.UserDto;
 import com.aug.banking.service.UserService;

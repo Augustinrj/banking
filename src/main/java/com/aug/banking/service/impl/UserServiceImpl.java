@@ -1,22 +1,27 @@
 package com.aug.banking.service.impl;
 
-import com.aug.banking.dto.AccountDto;
-import com.aug.banking.dto.AuthenticationResponse;
-import com.aug.banking.dto.UserDto;
+import com.aug.banking.config.JwtUtils;
+import com.aug.banking.dto.*;
 import com.aug.banking.model.Account;
+import com.aug.banking.model.Role;
 import com.aug.banking.model.User;
 import com.aug.banking.repositories.AccountRepository;
+import com.aug.banking.repositories.RoleRepository;
 import com.aug.banking.repositories.UserRepository;
 import com.aug.banking.service.AccountService;
 import com.aug.banking.service.UserService;
 import com.aug.banking.validators.ObjectsValidator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -26,11 +31,14 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-
+    private static final String ROLE_USER = "ROLE_USER";
     private final UserRepository repository;
     private final AccountService accountService;
     private final ObjectsValidator<UserDto> validator;
     private final PasswordEncoder passwordEncoder;
+    private final JwtUtils jwtUtils;
+    private final AuthenticationManager authManager;
+    private RoleRepository roleRepository;
     /**
      * @param dto
      * @return Integer
@@ -95,14 +103,58 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * @param user
+     * @param dto
      * @return
      */
     @Override
+    @Transactional
     public AuthenticationResponse register(UserDto dto) {
         validator.validate(dto);
         User user = UserDto.toEntity(dto);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole(findOrCreate(ROLE_USER));
+        User savedUser = repository.save(user);
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("userId",savedUser.getId());
+        claims.put("fullname",savedUser.getFirstname());
+        String token = jwtUtils.generateToken(savedUser,claims);
+        return AuthenticationResponse.builder()
+                .token(token)
+                .build();
+    }
 
+    /**
+     * @param request
+     * @return
+     */
+    @Override
+    public AuthenticationResponse authenticate(AuthenticationRequest request) {
+        authManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(),request.getPassword()));
+        final User user = repository.findByEmail(request.getEmail()).get();
+        Map<String,Object> claims = new HashMap<>();
+        claims.put("userId",user.getId());
+        claims.put("fullName",user.getFirstname()+" "+user.getLastname());
+        final String token = jwtUtils.generateToken(user,claims);
+        return AuthenticationResponse.builder()
+                .token(token)
+                .build();
+    }
+
+    @Override
+    public Integer update(LightUserDto userDto) {
+        User user = LightUserDto.toEntity(userDto);
         return repository.save(user).getId();
     }
+
+    private Role findOrCreate(String roleName){
+        Role role = roleRepository.findByName(roleName)
+                .orElse(null);
+        if (role == null){
+            return roleRepository.save(Role.builder()
+                    .name(roleName)
+                    .build());
+        }
+        return role;
+    }
+
 }
